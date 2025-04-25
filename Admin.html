@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SB ENTERTAINMENT</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        /* User Panel CSS */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        body {
+            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            color: white;
+            overflow-x: hidden;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            background: linear-gradient(to bottom, rgba(15, 12, 41, 0.8), transparent);
+            position: fixed;
+            width: 100%;
+            z-index: 10;
+            box-shadow: 0 4px 15px rgba(255, 0, 255, 0.5);
+        }
+        .header .logo {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 40px;
+            color: #ffd700;
+            text-shadow: 0 0 15px #ffd700, 0 0 25px #ff00ff, 0 0 35px #00ffcc;
+            letter-spacing: 5px;
+            animation: glow 2s ease-in-out infinite alternate;
+            background: linear-gradient(90deg, #ff00ff, #00ffcc, #ffd700);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        @keyframes glow {
+            from { text-shadow: 0 0 10px #ffd700, 0 0 20px #ff00ff, 0 0 30px #00ffcc; }
+            to { text-shadow: 0 0 20px #ffd700, 0 0 30px #ff00ff, 0 0 40px #00ffcc; }
+        }
+        .header .icons {
+            display: flex;
+            gap: 15px;
+        }
+        .header .icons a {
+            color: #00ffcc;
+            text-decoration: none;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: color 0.3s, transform 0.3s;
+        }
+        .header .icons a:hover {
+            color: #ff00ff;
+            transform: scale(1.1);
+        }
+        .header .icons img {
+            width: 20px;
+            height: 20px;
+            filter: drop-shadow(0 0 5px #00ffcc);
+        }
+        .slider {
+            margin-top: 80px;
+            height: 300px;
+            overflow: hidden;
+            position: relative;
+            border-bottom: 4px solid #ff00ff;
+            box-shadow: 0 4px 15px rgba(0, 255, 204, 0.5);
+        }
+        .slider .slides {
+            display: flex;
+            width: 700%;
+            animation: slide 21s infinite;
+        }
+        .slider .slide {
+            width: 14.28%;
+            height: 300px;
+        }
+        .slider .slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: brightness(0.8);
+            transition: filter 0.3s;
+        }
+        .slider .slide img:hover {
+            filter: brightness(1);
+        }
+        @keyframes slide {
+            0% { transform: translateX(0); }
+            12% { transform: translateX(0); }
+            16% { transform: translateX(-14.28%); }
+            28% { transform: translateX(-14.28%); }
+            32% { transform: translateX(-28.56%); }
+            44% { transform: translateX(-28.56%); }
+            48% { transform: translateX(-42.84%); }
+            60% { transform: translateX(-42.84%); }
+            64% { transform: translateX(-57.12%); }
+            76% { transform: translateX(-57.12%); }
+            80% { transform: translateX(-71.4%); }
+            92% { transform: translateX(-71.4%); }
+            100% { transform: translateX(-85.68%); }
+        }
+        .nav {
+            display: flex;
+            justify-content: space-around;
+            gap: 15px;
+            padding: 10px;
+            background: linear-gradient(to right, #ff00ff, #00ffcc);
+            border-bottom: 2px solid #ffd700;
+            box-shadow: 0 2px 10px rgba(255, 0, 255, 0.5);
+        }
+        .nav a {
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+            cursor: pointer;
+            padding: 5px 10px;
+            border-radius: 5px;
+            transition: background 0.3s, color 0.3s, transform 0.3s;
+        }
+        .nav a:hover {
+            background: #1a1a2e;
+            color: #ffd700;
+            transform: scale(1.1);
+        }
+        .categories {
+            padding: 20px;
+        }
+        .category-list {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+        }
+        .category-item {
+            background: linear-gradient(135deg, #ff00ff, #00ffcc);
+            border-radius: 10px;
+            text-align: center;
+            padding: 10px;
+            min-width: 100px;
+            box-shadow: 0 0 15px rgba(255, 0, 255, 0.5);
+            transition: transform 0.3s;
+        }
+        .category-item:hover {
+            transform: scale(1.05);
+        }
+        .category-item img {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 5px;
+        }
+        .category-item p {
+            margin-top: 5px;
+            font-size: 14px;
+            color: white;
+            text-shadow: 0 0 5px #000;
+        }
+        .content-section {
+            padding: 20px;
+        }
+        .content-section h3 {
+            font-size: 20px;
+            margin-bottom: 10px;
+            color: #ffd700;
+            text-shadow: 0 0 5px #ff00ff;
+        }
+        .content-section h4 {
+            font-size: 16px;
+            margin: 15px 0 10px;
+            color: #00ffcc;
+            text-shadow: 0 0 5px #ff00ff;
+        }
+        .content-row {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            padding-bottom: 10px;
+        }
+        .content-item {
+            position: relative;
+            min-width: 120px;
+            height: 160px;
+            background-color: #333;
+            border-radius: 5px;
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 0 10px rgba(0, 255, 204, 0.5);
+        }
+        .content-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .content-item:hover {
+            transform: scale(1.1);
+            z-index: 5;
+            box-shadow: 0 0 20px rgba(255, 0, 255, 0.8);
+        }
+        .content-item .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            opacity: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.3s;
+        }
+        .content-item:hover .overlay {
+            opacity: 1;
+        }
+        .content-item .overlay p {
+            font-size: 12px;
+            text-align: center;
+            padding: 5px;
+            color: #ffd700;
+            text-shadow: 0 0 5px #ff00ff;
+        }
+        #home-carousel {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            padding-bottom: 10px;
+            scroll-behavior: smooth;
+        }
+        		.carousel-item {
+            position: relative;
+            min-width: 200px;
+            height: 300px;
+            background-color: #333;
+            border-radius: 10px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 15px rgba(255, 0, 255, 0.5);
+        }
+        .carousel-item.active {
+            min-width: 300px;
+            height: 400px;
+            box-shadow: 0 0 25px rgba(0, 255, 204, 0.8);
+        }
+        .carousel-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .carousel-item .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            opacity: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.3s;
+        }
+        .carousel-item:hover .overlay {
+            opacity: 1;
+        }
+        .carousel-item .overlay p {
+            font-size: 16px;
+            text-align: center;
+            padding: 5px;
+            color: #ffd700;
+            text-shadow: 0 0 5px #ff00ff;
+        }
+        .settings-section {
+            padding: 20px;
+            display: none;
+        }
+        .settings-section h3 {
+            font-size: 20px;
+            margin-bottom: 10px;
+            color: #ffd700;
+            text-shadow: 0 0 5px #ff00ff;
+        }
+        .settings-option {
+            background: #1a1a2e;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .settings-option:hover {
+            background: #2a2a4e;
+        }
+        .footer-nav {
+            display: flex;
+            justify-content: space-around;
+            padding: 10px;
+            background: linear-gradient(to right, #ff00ff, #00ffcc);
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            box-shadow: 0 -2px 10px rgba(255, 0, 255, 0.5);
+            z-index: 10;
+        }
+        .footer-nav a {
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+            transition: color 0.3s, transform 0.3s;
+        }
+        .footer-nav a:hover {
+            color: #ffd700;
+            transform: scale(1.1);
+        }
+        .footer-nav a img {
+            width: 20px;
+            height: 20px;
+            filter: drop-shadow(0 0 5px #00ffcc);
+        }
+
+        /* Admin Login CSS */
+        .login-container {
+            background: #1a1a2e;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(255, 0, 255, 0.5);
+            text-align: center;
+            width: 350px;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: none;
+            z-index: 1000;
+        }
+        .login-container h2 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 28px;
+            color: #ffd700;
+            text-shadow: 0 0 10px #ff00ff;
+            margin-bottom: 20px;
+        }
+        .login-container label {
+            display: block;
+            margin: 10px 0 5px;
+            color: #00ffcc;
+            font-size: 16px;
+        }
+        .login-container input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            background: #333;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            font-size: 14px;
+        }
+        .login-container button {
+            background: linear-gradient(to right, #ff00ff, #00ffcc);
+            border: none;
+            padding: 10px 20px;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: transform 0.3s;
+        }
+        .login-container button:hover {
+            transform: scale(1.05);
+        }
+        .error-message {
+            color: #ff5555;
+            margin-top: 10px;
+            display: none;
+        }
+        .back-button {
+            margin-top: 10px;
+            color: #00ffcc;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+
+        /* Admin Panel CSS */
+        .admin-panel {
+            font-family: 'Roboto', sans-serif;
+            background-color: #141414;
+            color: #ffffff;
+            margin: 0;
+            padding: 0;
+            display: none;
+            min-height: 100vh;
+        }
+        .slide-container {
+            width: 1280px;
+            min-height: 720px;
+            margin: 0 auto;
+            padding: 20px;
+            overflow-y: auto;
+        }
+        .netflix-red {
+            color: #e50914;
+        }
+        .netflix-btn {
+            background-color: #e50914;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .netflix-btn:hover {
+            background-color: #f40612;
+        }
+        .netflix-card {
+            background-color: #1f1f1f;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        .content-thumbnail {
+            height: 120px;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+        .content-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0) 100%);
+            padding: 10px;
+        }
+        .sidebar-item {
+            padding: 10px 15px;
+            border-radius: 4px;
+            margin-bottom: 5px;
+            transition: background-color 0.2s;
+        }
+        .sidebar-item:hover, .sidebar-item.active {
+            background-color: #292929;
+        }
+        .content-card {
+            transition: transform 0.2s;
+        }
+        .content-card:hover {
+            transform: scale(1.03);
+        }
+        .progress-bar {
+            height: 6px;
+            background-color: #333;
+            border-radius: 2px;
+            overflow: hidden;
+            margin-top: 10px;
+            display: none;
+        }
+        .progress-fill {
+            height: 100%;
+            background-color: #e50914;
+            transition: width 0.3s;
+        }
+        .preview-container {
+            margin-top: 10px;
+            text-align: center;
+        }
+        .preview-container img {
+            max-width: 150px;
+            max-height: 150px;
+            border-radius: 5px;
+            display: none;
+        }
+        .chart-container {
+            position: relative;
+            height: 200px;
+            width: 100%;
+        }
+        .dropdown {
+            background-color: #333;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 4px;
+        }
+        .upload-form {
+            display: none;
+            padding: 20px;
+            background-color: #292929;
+            border-radius: 4px;
+            margin-bottom: 20px;
+        }
+        .upload-form.active {
+            display: block;
+        }
+        .sb-entertainment {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(90deg, #e50914, #ff5555);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 10px rgba(229, 9, 20, 0.5);
+        }
+        .netflix-gradient {
+            background: linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, rgba(20,20,20,1) 100%);
+        }
+    </style>
+</head>
+<body>
+    <!-- User Panel -->
+    <div id="user-panel">
+        <div class="header">
+            <div class="logo">WELCOME TO SB ENTERTAINMENT</div>
+            <div class="icons">
+                <a href="#" onclick="showNotification()"><img src="https://img.icons8.com/ios-filled/50/ffffff/bell.png" alt="Notification"> Notification</a>
+                <a href="#" onclick="showDownload()"><img src="https://img.icons8.com/ios-filled/50/ffffff/download.png" alt="Download"> Download</a>
+                <a href="#" onclick="showAdminLogin()"><img src="https://img.icons8.com/ios-filled/50/ffffff/admin-settings-male.png" alt="Admin"> Admin</a>
+            </div>
+        </div>
+        <div class="slider">
+            <div class="slides">
+                <div class="slide"><img src="https://www.themoviedb.org/t/p/w500/qNBAXBIQlnOThrVvA6mA2B5ggV6.jpg" alt="Oppenheimer"></div>
+                <div class="slide"><img src="https://www.themoviedb.org/t/p/w500/iuFNMS8U5cb6xfzi51Dbkovj7vM.jpg" alt="Barbie"></div>
+                <div class="slide"><img src="https://www.themoviedb.org/t/p/w500/5a4JdoFwll5hfKqjCpIHOzibbsS.jpg" alt="Mission: Impossible"></div>
+                <div class="slide"><img src="https://www.themoviedb.org/t/p/w500/1g0dhYtq4irTY1GPXviftl1DXLY.jpg" alt="Spider-Man: Across the Spider-Verse"></div>
+                <div class="slide"><img src="https://www.themoviedb.org/t/p/w500/qhb1qOilapbapxWQn9jtRCMwXJF.jpg" alt="The Super Mario Bros. Movie"></div>
+                <div class="slide"><img src="https://www.themoviedb.org/t/p/w500/628Dep6AxEtDxjZoGP78TsOxYbK.jpg" alt="Guardians of the Galaxy Vol. 3"></div>
+                <div class="slide"><img src="https://www.themoviedb.org/t/p/w500/7WsyChQLEftFiDOVTGkv3hFpyD.jpg" alt="Samay"></div>
+            </div>
+        </div>
+        <div class="nav">
+            <a href="#" onclick="selectCategory('All Movies')">All Movies</a>
+            <a href="#" onclick="selectCategory('Recent Release')">Recent Release</a>
+            <a href="#" onclick="selectCategory('All Series')">All Series</a>
+            <a href="#" onclick="selectCategory('TV Show')">TV Show</a>
+            <a href="#" onclick="selectCategory('Animation')">Animation</a>
+            <a href="#" onclick="selectCategory('K-Drama')">K-Drama</a>
+            <a href="#" onclick="selectCategory('18+ Movie')">18+ Movie</a>
+            <a href="#" onclick="selectCategory('Old is Gold Movie')">Old is Gold Movie</a>
+            <a href="#" onclick="showSettings()">Settings</a>
+        </div>
+        <div class="categories">
+            <div class="category-list">
+                <div class="category-item"><img src="https://www.themoviedb.org/t/p/w500/8rI5C6lXFRnD4rI8sAXxwT6e6.jpg" alt="Bollywood"><p>Bollywood</p></div>
+                <div class="category-item"><img src="https://www.themoviedb.org/t/p/w500/7G9915LfUQ2lVfwMEEhDsn3kT4B.jpg" alt="Hollywood"><p>Hollywood</p></div>
+                <div class="category-item"><img src="https://www.themoviedb.org/t/p/w500/9xjZS2rlVxm8SFx8kPC3aIGCOY.jpg" alt="South"><p>South</p></div>
+                <div class="category-item"><img src="https://www.themoviedb.org/t/p/w500/8Gxv8gSFCU0XGDykEGv7zR1n2uw.jpg" alt="Punjabi"><p>Punjabi</p></div>
+            </div>
+        </div>
+        <div class="content-section" id="home-section">
+            <h3>Home</h3>
+            <div class="content-row" id="home-carousel">
+                <div class="carousel-item"><img src="https://www.themoviedb.org/t/p/w500/qNBAXBIQlnOThrVvA6mA2B5ggV6.jpg" alt="Oppenheimer"><div class="overlay"><p>Oppenheimer</p></div></div>
+                <div class="carousel-item"><img src="https://www.themoviedb.org/t/p/w500/iuFNMS8U5cb6xfzi51Dbkovj7vM.jpg" alt="Barbie"><div class="overlay"><p>Barbie</p></div></div>
+                <div class="carousel-item"><img src="https://www.themoviedb.org/t/p/w500/5a4JdoFwll5hfKqjCpIHOzibbsS.jpg" alt="Mission: Impossible"><div class="overlay"><p>Mission: Impossible</p></div></div>
+                <div class="carousel-item"><img src="https://www.themoviedb.org/t/p/w500/1g0dhYtq4irTY1GPXviftl1DXLY.jpg" alt="Spider-Man: Across the Spider-Verse"><div class="overlay"><p>Spider-Man: Across</p></div></div>
+                <div class="carousel-item"
